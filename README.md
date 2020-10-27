@@ -1,7 +1,18 @@
 # localstack-mock-tests
-A small repo to show how to set up localstack for different AWS cloud services.
+A small repo to show how to set up LocalStack for testing apps that use AWS cloud services.
 
-## Run local stack using `docker-compose`
+## Requirements
+- Python (both Python 2.x and 3.x supported)
+- pip
+- Docker
+
+## Installing LocalStack
+Install via pip
+```
+pip install localstack
+```
+
+## Running LocalStack using `docker-compose`
 Spin up docker: 
 ```
 docker-compose up
@@ -31,7 +42,7 @@ Create bucket:
 aws --endpoint-url=http://localhost:4566 s3 mb s3://localstack
 ```
 
-## Run local stack using the test containers
+## Running LocalStack using test containers
 Ensure the docker container is not up: 
 ```
 bash docker-clean.sh
