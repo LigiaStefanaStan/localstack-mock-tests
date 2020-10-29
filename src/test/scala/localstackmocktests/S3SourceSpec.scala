@@ -16,17 +16,17 @@ class S3SourceSpec extends FunSuite with BeforeAndAfter with Matchers with ForAl
         ExposedService("localstack", 4566)
       ))
 
-  private val mockS3Client: AmazonS3 = AmazonS3ClientBuilder.standard()
+  private val S3Client: AmazonS3 = AmazonS3ClientBuilder.standard()
     .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration("http://localhost:4566","us-east-1"))
     .withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials("1234", "1234")))
     .withPathStyleAccessEnabled(true)
     .build()
 
-  private val testDataBucket = "localstack"
+  private val testDataBucket = "my-bucket"
   private val testDataKey = "test-data.json"
 
   before {
-    mockS3Client.createBucket(testDataBucket)
+    S3Client.createBucket(testDataBucket)
   }
 
 
@@ -35,15 +35,17 @@ class S3SourceSpec extends FunSuite with BeforeAndAfter with Matchers with ForAl
     //Given
     val file = new File("src/test/resources/json-data/test-data.json")
 
-    mockS3Client.putObject(testDataBucket, s"$testDataKey", file)
+    S3Client.putObject(testDataBucket, s"$testDataKey", file)
 
     val expected = Seq(
       """{"valueField":"valueField-1"}""",
       """{"valueField":"valueField-2"}""",
       """{"valueField":"valueField-3"}""").toStream
 
+    val reader = new S3Source(S3Client, testDataBucket, testDataKey)
+
     //When
-    val actual = S3Source.readJSONData(mockS3Client, testDataBucket, testDataKey)
+    val actual = reader.readJSONData()
 
     // Then
     actual shouldBe expected
