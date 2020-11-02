@@ -1,4 +1,4 @@
-# localstack-mock-tests
+# localstack-tests
 A small repo to show how to set up LocalStack for testing apps that use AWS cloud services.
 
 ## Running LocalStack using `docker-compose`
@@ -22,13 +22,17 @@ export AWS_SECRET_ACCESS_KEY=1234
                        
 AWS CLI can be used to make calls to the S3 service.
 
-List bucket content: 
-```
-aws --endpoint-url=http://localhost:4566 s3 ls s3://
-```
 Create bucket: 
 ```
 aws --endpoint-url=http://localhost:4566 s3 mb s3://my-bucket
+```
+Copy local files to the bucket
+```
+aws --endpoint-url=http://localhost:4566 s3 cp src/test/resources/json-data/test-data.json s3://my-bucket
+```
+List bucket content: 
+```
+aws --endpoint-url=http://localhost:4566 s3 ls s3://my-bucket
 ```
 
 ## Running LocalStack using test containers

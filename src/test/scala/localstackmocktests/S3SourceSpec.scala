@@ -8,14 +8,33 @@ import com.amazonaws.services.s3.{AmazonS3, AmazonS3ClientBuilder}
 import com.dimafeng.testcontainers.{DockerComposeContainer, ExposedService, ForAllTestContainer}
 import org.scalatest.{FunSuite, BeforeAndAfter, Matchers}
 
+/*
+Extending ForAllTestContainer means that Docker will spin up a Docker container before tests are run and then turn it
+down after tests finish, as follows:
+
+  - JUnit starts the tests
+  - Testcontainers launches the LocalStack Docker container using docker-compose
+  - LocalStack container starts up and services can then be accessed
+  - Tests run
+  - Testcontainers runs docker-compose to tell it to shut down
+  - LocalStack shuts down and deletes the temporary files
+  - Testcontainers exits
+  - JUnit exits
+*/
 class S3SourceSpec extends FunSuite with BeforeAndAfter with Matchers with ForAllTestContainer {
 
+  //Expose the localhost service
   override val container: DockerComposeContainer =
     DockerComposeContainer(new File("./docker-compose.yml"),
       exposedServices = Seq(
         ExposedService("localstack", 4566)
       ))
 
+  /*
+  Create a standard AWS client
+  Point it at the LocalStack endpoint
+  Use it as if it was running against a real service
+   */
   private val S3Client: AmazonS3 = AmazonS3ClientBuilder.standard()
     .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration("http://localhost:4566","us-east-1"))
     .withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials("1234", "1234")))
