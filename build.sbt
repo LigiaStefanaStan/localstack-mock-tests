@@ -1,4 +1,4 @@
-name := "localstack-mock-tests"
+name := "localstack-tests"
 
 version := "0.0.1"
 
@@ -11,6 +11,6 @@ libraryDependencies ++= Seq(
   "com.amazonaws" % "aws-java-sdk-s3" % "1.11.882",
 
   // Testing
-  "org.scalatest" %% "scalatest" % "3.0.0" % "test",
+  "org.scalatest" %% "scalatest" % "3.0.0" % Test,
   "com.dimafeng" %% "testcontainers-scala-scalatest" % testcontainersVersion % Test
 )
