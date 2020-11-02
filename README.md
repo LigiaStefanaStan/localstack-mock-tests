@@ -1,8 +1,7 @@
 # localstack-tests
 A small repo to show how to set up LocalStack for testing apps that use AWS cloud services.
 
-LocalStack PowerPoint slides: 
-https://github.com/LigiaStefanaStan/localstack-tests/blob/f0b10fcc0d25cb76a2f237a3611f62bbbc7bc528/LocalStack-LStan.pdf
+[LocalStack PowerPoint Presentation](https://github.com/LigiaStefanaStan/localstack-tests/blob/f0b10fcc0d25cb76a2f237a3611f62bbbc7bc528/LocalStack-LStan.pdf)
 
 ## Running LocalStack using `docker-compose`
 Spin up docker: 
