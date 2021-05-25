@@ -3,12 +3,12 @@ version: '3.3'
 services:
 
   localstack:
-    image: localstack/localstack:0.11.6
+    image: localstack/localstack:0.12.10
     ports:
       - '4566:4566'
       - '8055:8080'
     environment:
-      SERVICES: s3
+      SERVICES: s3, sns, sqs
       DEBUG: 1
       DATA_DIR: "/tmp/localstack/data"
       AWS_ACCESS_KEY_ID: "1234"
